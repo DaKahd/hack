@@ -5,7 +5,16 @@
 
 {% for products in products %}
     
+
     {{ products.title}}
+    <img src="{{ products.image.url }}" alt="Image">
+    {% if products.sale_price %}
+        <strike> ${{products.price}} </strike> ${{products.sale_price}} - QTY: {{ products.quantity}}
+    {% else %}
+    ${{ products.price }}
+
+    {% endif %}
+    
 
 {% endfor %}
 
