@@ -3,4 +3,17 @@
 
 {% block content %}
 
+{% for parent_theme in parent_theme %}
+    {{ parent_theme.title }}
+
+    {% for child_theme in child_theme %}
+        {% if child_theme.parent_theme == parent_theme %}
+            {{ child_theme.title }}
+
+        {% endif %}
+
+    {% endfor %}
+
+{% endfor %}
+
 {% endblock content%}
