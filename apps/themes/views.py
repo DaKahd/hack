@@ -9,3 +9,8 @@ def all_themes(request):
 
     return render(request, 'themes/all_themes.html', 
                   {'parent_theme': parent_theme, 'child_theme': child_theme})
+
+
+def theme_posts(request):
+
+    child_theme = ChildTheme.objects.filter(is_active=True)
