@@ -21,9 +21,8 @@ def all_themes(request):
 
 
 def theme_posts(request, slug):
-
     child_theme = get_object_or_404(ChildTheme, slug=slug)
-    products = Product.objects.filter(child_theme=child_theme) 
+    products = Product.objects.filter(child_theme=child_theme)
 
-    return render(request, 'themes/theme_post.html', 
-                  {'child_theme': child_theme, 'products': products})
+    return render(request, 'themes/theme_post.html', {'child_theme': child_theme, 'products': products})
+

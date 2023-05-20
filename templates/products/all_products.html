@@ -1,0 +1,12 @@
+{% extends "base/index.html" %}
+{% block title %} Shop {% endblock title %}
+
+{% block content %}
+
+{% for products in products %}
+    
+    {{ products.title}}
+
+{% endfor %}
+
+{% endblock content%}

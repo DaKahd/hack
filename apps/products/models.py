@@ -6,6 +6,15 @@ from django.utils.text import slugify
 
 class Product(models.Model):
 
+    child_theme = models.ForeignKey(
+        ChildTheme,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        help_text="""If you make this a part of a child theme, 
+        if the child theme is deleted so are the posts within it"""
+    )
+
     title = models.CharField(
         max_length=50,
         blank=False,
