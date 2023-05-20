@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--)k^qah0xb&jrv99$(yxn!x2f-2d_5*_u4v*brgkjg%vgj@0w^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://hackathon.kahdian.com/admin', '127.0.0.1', 'localhost']
 
 
 # Application definition
