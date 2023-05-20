@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.themes.apps.ThemesConfig',
     'apps.products.apps.ProductsConfig',
-    'apps.adminModel',
+    'apps.adminModel.apps.AdminModelConfig',
 ]
 
 MIDDLEWARE = [
