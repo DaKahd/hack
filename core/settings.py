@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'apps.themes',
     'apps.products',
     'apps.adminModel',
-    'apps.themes.apps.ThemesConfig',
 ]
 
 MIDDLEWARE = [
