@@ -36,7 +36,7 @@ class ParentTheme(BaseTheme):
 
 class ChildTheme(BaseTheme):
 
-    parentcategory = models.ForeignKey(
+    parent_theme = models.ForeignKey(
         ParentTheme, 
         blank=True,
         null=True,
