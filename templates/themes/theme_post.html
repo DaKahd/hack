@@ -1,12 +1,10 @@
 {% extends "base/index.html" %}
-{% block title %} Shop {% endblock title %}
+{% block title %} {{ child_theme.title }} {% endblock title %}
 
 {% block content %}
 
 {% for products in products %}
-    
-    {{ products.title}}
-
+    {{ products.title }}
 {% endfor %}
 
 {% endblock content%}

@@ -26,7 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'is_active',)
     list_filter = ('is_active', 'in_progress',)
     search_fields = ('title',)
-    fields = ('title', 'image', 'description', 
+    fields = ('child_theme', 'title', 'image', 'description', 
               'price', 'sale_price', 'quantity',
               'is_active', 'in_progress', 'slug',)
 
