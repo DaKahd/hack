@@ -26,10 +26,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'is_active',)
     list_filter = ('is_active', 'in_progress',)
     search_fields = ('title',)
-    fields = ('title', 'description', 'image', 
-              'price', 'in_progress', 'is_active',
-              'in_progress_quantity', 'sale_price', 'quantity',
-              'slug',)
+    fields = ('title', 'image', 'description', 
+              'price', 'sale_price', 'quantity',
+              'is_active', 'in_progress', 'slug',)
 
 admin.site.register(Product, ProductAdmin)
     

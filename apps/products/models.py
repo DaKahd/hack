@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ValidationError
 from apps.themes.models import ChildTheme
 from django.utils.text import slugify
 
@@ -46,22 +47,18 @@ class Product(models.Model):
     sale_price =  models.DecimalField(
         max_digits=7,
         decimal_places=2,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
         default=0.0
     )
 
     quantity = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         default=0,
     )
 
-    in_progress_quantity = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True,
-        default=0,
-    )
+
 
     slug = models.SlugField(
         max_length=50,
@@ -80,3 +77,9 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.is_active and self.in_progress:
+            raise ValidationError("Item cannot be active and in progress at the same time")
+
+       
