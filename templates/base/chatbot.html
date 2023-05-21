@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        .chatbox {
+            height: 400px;
+            width: 350px;
+            background: #fff;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbox-header {
+            background: #007bff;
+            color: #fff;
+            padding: 15px;
+            font-size: 1.2em;
+        }
+        .chatbox-content {
+            flex-grow: 1;
+            padding: 15px;
+            overflow: auto;
+        }
+        .chatbox-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chatbox-content::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .chatbox-content::-webkit-scrollbar-thumb {
+            background: #888; 
+        }
+        .chatbox-content::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+        .chatbox-content p {
+            margin: 5px;
+        }
+        .chatbox-content .user {
+            align-self: flex-end;
+            background: #007bff;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+        .chatbox-content .bot {
+            align-self: flex-start;
+            background: #e9e9e9;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+        .chatbox-input {
+            display: flex;
+        }
+        .chatbox-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
+        .chatbox-input button {
+            border: none;
+            background: #007bff;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .chatbox-input button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbox">
+        <div class="chatbox-header">
+            Chatbot
+        </div>
+        <div class="chatbox-content" id="chatbox">
+            <div class="bot">Hello! How can I assist you today? Type "help" for a list of possible commands.</div>
+        </div>
+        <div class="chatbox-input">
+            <input type="text" id="userInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+<script>
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        var input = document.getElementById('userInput');
+        var message = input.value;
+        input.value = '';
+
+        // append user message
+        document.getElementById('chatbox').innerHTML += '<div class="user">' + message + '</div>';
+
+        // bot response
+        setTimeout(function() {
+            let botMessage = getBotResponse(message);
+            document.getElementById('chatbox').innerHTML += '<div class="bot">' + botMessage + '</div>';
+            document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+        }, 1000);
+    }
+
+        function getBotResponse(input) {
+        // transform user input to lowercase
+        input = input.toLowerCase();
+
+        // predefined replies
+        let responses = {
+            "hi": ["Hello!", "Hi there!", "Hey!", "Hi! How can I help you?"],
+            "how are you": ["I'm a bot, so technically I don't have feelings, but thank you for asking!", "I'm doing great, thank you!", "As a bot, I'm always operating at full capacity!"],
+            "what is your name|whats your name": ["You can call me Chatbot.", "I'm Chatbot.", "My creators named me Chatbot."],
+            "what is the time": ["The current time is " + new Date().toLocaleTimeString()],
+            "what is the date": ["Today's date is " + new Date().toLocaleDateString()],
+            "how old are you": ["I am a computer program, so I don't have an age."],
+            "where are you from": ["I exist in the digital realm, so you can say I'm from the internet!"],
+            "tell me a joke": ["Sure, here's a joke for you: Why don't scientists trust atoms? Because they make up everything!"],
+            "help": ["You can ask me questions like: 'What is your name?', 'How are you?', 'What is the time?', 'What is the date?', 'How old are you?', 'Where are you from?', 'Tell me a joke.' Feel free to ask anything!"],
+            "default": ["I'm sorry, I didn't understand that.", "Could you rephrase that?", "I'm not sure I understand."]
+        }
+
+        // regex to match mathematical expressions
+        let mathExpression = /(\d+\.?\d*)(?:\s*)([\+\-\*\/])(?:\s*)(\d+\.?\d*)/;
+        let match = input.match(mathExpression);
+
+        if (match) {
+            let expression = input.replace(/(\d+\.?\d*)(?:\s*)([\+\-\*\/])(?:\s*)(\d+\.?\d*)/, "$1 $2 $3");
+            let result = eval(expression);
+            return "The result is " + result;
+        }
+
+        // Calculate the similarity between the input and possible commands
+        let bestMatch = null;
+        let bestMatchScore = 0;
+
+        for (let command in responses) {
+            let commandVariations = command.split("|");
+            for (let variation of commandVariations) {
+                let similarity = calculateSimilarity(input, variation);
+                if (similarity > bestMatchScore) {
+                    bestMatch = command;
+                    bestMatchScore = similarity;
+                }
+            }
+        }
+
+        // Check if the best match score is above the threshold
+        if (bestMatchScore >= 0.65) {
+            let botResponse = responses[bestMatch];
+            return botResponse[Math.floor(Math.random() * botResponse.length)];
+        }
+
+        // If no good match found, return a default response
+        return responses["default"][Math.floor(Math.random() * responses["default"].length)];
+    }
+
+    function calculateSimilarity(input, command) {
+        let len1 = input.length;
+        let len2 = command.length;
+        let matrix = [];
+
+        for (let i = 0; i <= len1; i++) {
+            matrix[i] = [];
+            matrix[i][0] = i;
+        }
+
+        for (let j = 0; j <= len2; j++) {
+            matrix[0][j] = j;
+        }
+
+        for (let i = 1; i <= len1; i++) {
+            for (let j = 1; j <= len2; j++) {
+                let cost = (input[i - 1] === command[j - 1]) ? 0 : 1;
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j - 1] + cost
+                );
+            }
+        }
+
+        let distance = matrix[len1][len2];
+        let maxLength = Math.max(len1, len2);
+        let similarity = 1 - distance / maxLength;
+
+        return similarity;
+    }
+
+
+``
+
+
+</script>
+</body>
+</html>
