@@ -61,6 +61,12 @@ class Product(models.Model):
         default=0.0
     )
 
+    sale = models.BooleanField(
+        default=False,
+        blank=True,
+        null=True
+    )
+
     quantity = models.PositiveSmallIntegerField(
         blank=False,
         null=False,
@@ -76,6 +82,7 @@ class Product(models.Model):
     )
 
     class Meta:
+        ordering = ('price',)
         verbose_name = "Product"
         verbose_name_plural = 'Products'
 
@@ -85,7 +92,10 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+            if self.sale_price:
+                self.sale = True
         super().save(*args, **kwargs)
+        
 
     def clean(self):
         if self.is_active and self.in_progress:
