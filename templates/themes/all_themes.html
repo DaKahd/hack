@@ -3,22 +3,39 @@
 
 {% block content %}
 
-{% for parent_theme in parent_theme %}
-    {{ parent_theme.title }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-    {% for child_theme in child_theme %}
-        {% if child_theme.parent_theme == parent_theme %}
-            {{ child_theme.title }}
-            <br>
-            <br>
-        
-        {% elif child_theme.parent_theme is None %}
-            Null child : {{ child_theme.title }}
+<style>
+  .theme-col {
+    margin-bottom: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+</style>
 
-        {% endif %}
-
+<div class="container mt-5">
+  <div class="row mt-5">
+    {% for parent_theme in parent_theme %}
+      <div class="col-md-3 col-sm-6 theme-col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ parent_theme.title }}</h5>
+            <hr>
+            {% for child_theme in child_theme %}
+              {% if child_theme.parent_theme == parent_theme %}
+                <p class="card-text">{{ child_theme.title }}</p>
+              {% elif child_theme.parent_theme is None %}
+                <p class="card-text">Null child: {{ child_theme.title }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:4 %}
+        </div><div class="row mt-5">
+      {% endif %}
     {% endfor %}
+  </div>
+</div>
 
-{% endfor %}
-
-{% endblock content%}
+{% endblock content %}
