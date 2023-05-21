@@ -4,6 +4,17 @@
 {% block content %}
 
 
+<form method="GET" action="">
+    {{ search_form }}
+    <button type="submit">Search</button>
+</form>
+
+<form method="GET" action="">
+    {{ sort_form }}
+    <button type="submit">Sort</button>
+</form>
+
+
 <br>
 {% for products in products %}
     
