@@ -38,22 +38,25 @@
 
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="#">Ecommerce</a>
+      <a class="navbar-brand" href="#">Ecommerce</a>    &nbsp;&nbsp;&nbsp;
+      <a href="{% url 'all_products' %}" class="btn btn-rounded">All Products</a>
 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {% for parent in parent_theme %}
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ parent.title }}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {% for child in child_theme %}
-            {% if child.parent_theme == parent %}
-              <a class="dropdown-item" href="#">{{ child.title }}</a>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    {% endfor %}
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ parent.title }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for child in child_theme %}
+        {% if child.parent_theme == parent %}
+        <a class="dropdown-item" href="/shop-by-category/{{ child.slug }}/">{{ child.title }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+
     
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 {% for parent in parent_theme %}
