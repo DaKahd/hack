@@ -4,31 +4,41 @@
 {% block content %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <style>
   .product-col {
     margin-bottom: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .search-form input[type="text"] {
+    width: 80%;
+  }
+  .sort-form {
+    text-align: right;
   }
 </style>
+
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-6">
-      <form method="GET" action="">
+    <div class="col-md-12">
+      <form method="GET" action="" class="search-form">
         {{ search_form }}
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
     </div>
-    <div class="col-md-6">
-      <form method="GET" action="">
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <form method="GET" action="" class="sort-form">
         {{ sort_form }}
         <button type="submit" class="btn btn-primary">Sort</button>
       </form>
     </div>
   </div>
-  <br></br>
-  <br></br>
+
   <div class="row mt-5">
     {% for products in products %}
       <div class="col-md-3 col-sm-6 product-col">
