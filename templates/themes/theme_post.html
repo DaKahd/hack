@@ -2,32 +2,49 @@
 {% block title %} {{ child_theme.title }} {% endblock title %}
 
 {% block content %}
+<head>
+    <!-- ... other head elements ... -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ... your body content ... -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+</body>
 
+<div class="container">
 
-<form method="GET" action="">
-    {{ search_form }}
-    <button type="submit">Search</button>
-</form>
+    <div class="my-3">
+        <form method="GET" action="" class="d-inline-block me-2">
+            {{ search_form }}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 
-<form method="GET" action="">
-    {{ sort_form }}
-    <button type="submit">Sort</button>
-</form>
+        <form method="GET" action="" class="d-inline-block">
+            {{ sort_form }}
+            <button type="submit" class="btn btn-primary">Sort</button>
+        </form>
+    </div>
 
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-3 col-md-6 my-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <img src="{{ product.image.url }}" class="img-fluid" alt="Image">
+                        <p class="card-text">
+                            {% if product.sale_price %}
+                                <strike> ${{ product.price }} </strike> ${{ product.sale_price }} - QTY: {{ product.quantity }}
+                            {% else %}
+                                ${{ product.price }} - QTY: {{ product.quantity }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-<br>
-{% for products in products %}
-    
-    {{ products.title}}
-    <img src="{{ products.image.url }} " alt="Image">
-    {% if products.sale_price %}
-        <strike> ${{products.price}} </strike> ${{products.sale_price}} - QTY: {{ products.quantity}}
-    {% else %}
-    ${{ products.price }} - QTY: {{ products.quantity }}
+</div>
 
-    {% endif %}
-    
-
-{% endfor %}
-
-{% endblock content%}
+{% endblock content %}
