@@ -4,6 +4,9 @@ from apps.products.models import Product
 from apps.products.forms import ProductSearchForm, ProductSortForm
 
 
+def chatbot(request):
+    return render(request, 'base/chatbot.html')
+
 def all_themes_index(request):
 
     parent_theme = ParentTheme.objects.filter(is_active=True)
